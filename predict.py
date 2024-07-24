@@ -556,13 +556,13 @@ class Predictor(BasePredictor):
             default=512,
             description="The width of the generated images in pixels",
             ge=100,
-            le=1024,
+            le=1280,
         ),
         height: int = Input(
             default=640,
             description="The height of the generated images in pixels",
             ge=100,
-            le=1024
+            le=1280
         ),
         steps: int = Input(
             default=25,
@@ -616,7 +616,7 @@ class Predictor(BasePredictor):
         ),
         output_quality: int = Input(
             description="The image compression quality (for lossy formats like JPEG and WebP). 100 = best quality, 0 = lowest quality.",
-            default=80,
+            default=100,
             ge=0,
             le=100,
         ),
