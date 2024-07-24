@@ -555,12 +555,14 @@ class Predictor(BasePredictor):
         width: int = Input(
             default=512,
             description="The width of the generated images in pixels",
-            choices=[256, 320, 384, 448, 512, 576, 640, 704, 768, 832, 896, 960, 1024],
+            ge=100,
+            le=1024,
         ),
         height: int = Input(
             default=640,
             description="The height of the generated images in pixels",
-            choices=[256, 320, 384, 448, 512, 576, 640, 704, 768, 832, 896, 960, 1024],
+            ge=100,
+            le=1024
         ),
         steps: int = Input(
             default=25,
