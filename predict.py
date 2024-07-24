@@ -142,7 +142,11 @@ def resize_without_crop(image, target_width, target_height):
 @torch.inference_mode()
 def run_rmbg(img, sigma=0.0):
     H, W, C = img.shape
-    assert C == 3
+
+    if C != 3:
+        img = Image.fromarray(img).convert("RGB")
+        img = np.array(img)
+
     k = (256.0 / float(H * W)) ** 0.5
     feed = resize_without_crop(img, int(64 * round(W * k)), int(64 * round(H * k)))
     feed = numpy2pytorch([feed]).to(device=device, dtype=torch.float32)
@@ -562,7 +566,7 @@ class Predictor(BasePredictor):
             default=640,
             description="The height of the generated images in pixels",
             ge=100,
-            le=1280
+            le=1280,
         ),
         steps: int = Input(
             default=25,
@@ -682,7 +686,7 @@ class Predictor(BasePredictor):
         # Image.fromarray(output_bg).save(bg_path, **save_params)
 
         # Save the generated images
-        output_paths = [] #[Path(bg_path)]
+        output_paths = []  # [Path(bg_path)]
         for i, img in enumerate(result_gallery):
             img_path = os.path.join(output_dir, f"generated_{i}.{extension}")
             print(f"[~] Saving to {img_path}...")
